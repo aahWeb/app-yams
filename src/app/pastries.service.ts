@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
 
 import { List, Pastrie } from './pastrie';
 import { INGREDIENTS_LISTS, PASTRIES } from './mock-pastries';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +17,19 @@ import { INGREDIENTS_LISTS, PASTRIES } from './mock-pastries';
 export class PastriesService {
   private pastries: Pastrie[] = PASTRIES;
   private ingredientsList: List[] = INGREDIENTS_LISTS;
+
+  private pastriesUrl = 'http://localhost:3001/api/pastries';
+  private ingredientsListsUrl = 'http://localhost:3001/api/ingredientsLists';
   private numberPastries: number = 0;
   private currentPage: Subject<number> = new Subject<number>();
 
   constructor(private http: HttpClient) {
     this.numberPastries = this.pastries.length;
+  }
+
+  get(): Observable<Pastrie[]> {
+
+    return this.http.get<Pastrie[]>(this.pastriesUrl, httpOptions);
   }
 
   getPastries(): Pastrie[] {

@@ -20,6 +20,11 @@ export class PastriesComponent implements OnInit {
 
   constructor(private ps : PastriesService) {
     console.log('Constructor');
+    this.ps.get().subscribe(pastries => {
+      console.log("PASTRIES")
+      console.log(pastries)
+      console.log("PASTRIES")
+    })
   }
 
   ngOnInit(): void {
