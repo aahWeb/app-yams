@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, map } from 'rxjs';
 
 import { List, Pastrie } from './pastrie';
 import { INGREDIENTS_LISTS, PASTRIES } from './mock-pastries';
@@ -17,9 +17,9 @@ const httpOptions = {
 export class PastriesService {
   private pastries: Pastrie[] = PASTRIES;
   private ingredientsList: List[] = INGREDIENTS_LISTS;
-
   private pastriesUrl = 'http://localhost:3001/api/pastries';
   private ingredientsListsUrl = 'http://localhost:3001/api/ingredientsLists';
+  private pastriesUrlOrderQuantity = 'http://localhost:3001/api/pastries/order-quantity';
   private numberPastries: number = 0;
   private currentPage: Subject<number> = new Subject<number>();
 
@@ -27,13 +27,11 @@ export class PastriesService {
     this.numberPastries = this.pastries.length;
   }
 
-  get(): Observable<Pastrie[]> {
+  getPastries(): Observable<Pastrie[]> {
 
-    return this.http.get<Pastrie[]>(this.pastriesUrl, httpOptions);
-  }
-
-  getPastries(): Pastrie[] {
-    return this.pastries.sort((a, b) => b.quantity - a.quantity)
+    return this.http.get<Pastrie[]>(this.pastriesUrl, httpOptions).pipe(
+      map((pastries: Pastrie[]) => pastries.sort((a, b) => b.quantity - a.quantity))
+    )
   }
 
   search(word: string): Pastrie[] {
@@ -42,9 +40,9 @@ export class PastriesService {
     return this.pastries.filter(p => p.name.match(re));
   }
 
-  paginate(start: number, end: number) {
+  paginate(start: number, end: number): Observable<Pastrie[]> {
 
-    return this.getPastries().slice(start, end);
+    return this.http.get<Pastrie[]>(this.pastriesUrlOrderQuantity + `/${start}/${end}`, httpOptions);
   }
 
   count(): number {

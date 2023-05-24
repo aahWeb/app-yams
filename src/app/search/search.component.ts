@@ -22,15 +22,16 @@ export class SearchComponent {
   //   this.searchPastries.emit(pastries)
   // }
 
-  onChangeEmit(w: string){
+  onChangeEmit(w: string) {
     const pastries: Pastrie[] = this.ps.search(w);
     console.log(pastries);
-    
+
     this.searchPastries.emit(pastries)
   }
 
-  onReload(){
+  onReload() {
     this.word = "";
-    this.searchPastries.emit(this.ps.getPastries())
+    this.ps.getPastries().subscribe(pastries => this.searchPastries.emit(pastries));
+
   }
 }

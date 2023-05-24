@@ -16,7 +16,7 @@ export class PaginationComponent {
   @Output() paginate: EventEmitter<Paginate> = new EventEmitter();
 
   constructor(private ps: PastriesService) {
-    this.total = this.ps.count();
+    this.total = this.ps.count() ;
     this.numberPages = Math.ceil(this.total / this.perPage);
     // Array est un generateur de nombre en puissance 
     this.pages = [ ...Array(this.numberPages).keys() ].map( page => page + 1 );
