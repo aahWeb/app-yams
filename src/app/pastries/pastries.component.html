@@ -1,0 +1,60 @@
+<app-search (searchPastries)="search($event)" ></app-search>
+<div class="row content h-pastries">
+  <!-- du template vers le TS (event)="function(arg)" -->
+  
+  <!-- .pagination -->
+  <app-pagination (paginate)="paginate($event)"></app-pagination>
+  <app-pagination  (paginate)="paginate($event)"></app-pagination>
+  <!-- On récupère la valeur $event de l'enfant -->
+  <div class="col-sm-4">
+    <div class="sticky">
+    <app-pastrie-details 
+    [bar]="foo" 
+    [pastrie]="currentPastrie" 
+    [count]="count"
+    (changePreference)="changeParentPreference($event)"
+    ></app-pastrie-details>
+  </div>
+  </div>
+  <div class="col-sm-8 pastrie">
+    <section *ngIf="pastries.length > 0">
+      <article
+        *ngFor="let pastrie of pastries"
+        class="card on-select"
+        (click)="onSelect(pastrie)"
+        [appBorderCard]="color"
+      >
+        <header class="card-header">
+          <h2>{{ pastrie.ref }}</h2>
+        </header>
+        <section class="card-body">
+          <h5 class="card-title">{{ pastrie.name }}</h5>
+          <p class="card-text">{{ pastrie.description }}</p>
+          <ul
+            class="d-flex list-unstyled"
+            *ngIf="pastrie.tags && pastrie.tags.length > 0"
+          >
+            <li
+              class="bg-info text-light m-2 p-2 rounded"
+              *ngFor="let tag of pastrie.tags"
+            >
+              {{ tag }}
+            </li>
+          </ul>
+          <a href="#" class="btn btn-primary"> Desc >> </a>
+          <img class="glyph-icon" src="./assets/svg/si-glyph-heart.svg" />
+          <small>{{ pastrie.like }}</small>
+          <img
+            class="glyph-icon"
+            src="./assets/svg/si-glyph-triangle-double-arrow-right.svg"
+          />
+          <small>{{ pastrie.quantity }} {{ pastrie.quantity > 2 ? 'unités disponbiles' : 'unité disponbile'}} </small>
+          <small *ngIf="pastrie.choice">[priority]</small>
+        </section>
+      </article>
+    </section>
+  </div>
+  <!-- du template vers le TS (event)="function(arg)" -->
+  <app-pagination  (paginate)="paginate($event)" ></app-pagination>
+  <!-- .pagination -->
+</div>

@@ -1,0 +1,20 @@
+<section class="card" *ngIf="pastrie">
+  <img
+    *ngIf="pastrie.url"
+    class="card-img-top"
+    src="{{ pastrie.url }}"
+    alt="Pastry Category"
+    
+  />
+  <section class="card-body">
+    <h5 class="card-title">{{ pastrie.ref }}</h5>
+    <p class="card-text">{{ pastrie.name }}</p>
+    <button [disabled]="count && count === maxPreference" (click)="preference(pastrie.id)" class="btn btn-primary"> Choice >> </button>
+    <button  *ngIf="pastrie.choice" (click)="preference(pastrie.id)" class="btn btn-primary"> Déselectionné >></button>
+  </section>
+  <ul class="list-group" *ngIf="getIngredients(pastrie.id)">
+    <li *ngFor="let ingredient of getIngredients(pastrie.id); first as first" class="list-group-item active">
+      {{ ingredient }} <span *ngIf="first">FIRST</span>
+    </li>
+  </ul>
+</section>

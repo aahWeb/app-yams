@@ -1,0 +1,17 @@
+<form class="form-inline my-2 my-lg-0 d-inline-flex"  #formSearch="ngForm">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" 
+        name="word"
+        [(ngModel)]="word" 
+        required 
+        (ngModelChange)="onChangeEmit($event)" 
+        />
+
+    <button 
+            [disabled]="formSearch.invalid" 
+            class="btn btn-outline-danger my-2 my-sm-0 m-4" 
+            type="submit"
+            (click)="onReload()"
+        >
+        reload
+    </button>
+</form>
