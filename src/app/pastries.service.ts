@@ -15,17 +15,15 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PastriesService {
-  private pastries: Pastrie[] = PASTRIES;
-  private ingredientsList: List[] = INGREDIENTS_LISTS;
   private pastriesUrl = 'http://localhost:3001/api/pastries';
   private ingredientsListsUrl = 'http://localhost:3001/api/ingredientsLists';
   private pastriesUrlOrderQuantity = 'http://localhost:3001/api/pastries/order-quantity';
   private searchPastriesUrl = 'http://localhost:3001/api/pastries-search';
+  private pastriesUrlCount = 'http://localhost:3001/api/pastries-count';
   private numberPastries: number = 0;
   private currentPage: Subject<number> = new Subject<number>();
 
   constructor(private http: HttpClient) {
-    this.numberPastries = this.pastries.length;
   }
 
   getPastries(): Observable<Pastrie[]> {
@@ -45,8 +43,8 @@ export class PastriesService {
     return this.http.get<Pastrie[]>(this.pastriesUrlOrderQuantity + `/${start}/${end}`, httpOptions);
   }
 
-  count(): number {
-    return this.numberPastries;
+  count(): Observable<number> {
+    return this.http.get<number>(this.pastriesUrlCount , httpOptions);
   }
 
   setCurrentPage(page: number) {
