@@ -20,6 +20,7 @@ export class PastriesService {
   private pastriesUrl = 'http://localhost:3001/api/pastries';
   private ingredientsListsUrl = 'http://localhost:3001/api/ingredientsLists';
   private pastriesUrlOrderQuantity = 'http://localhost:3001/api/pastries/order-quantity';
+  private searchPastriesUrl = 'http://localhost:3001/api/pastries-search';
   private numberPastries: number = 0;
   private currentPage: Subject<number> = new Subject<number>();
 
@@ -34,10 +35,9 @@ export class PastriesService {
     )
   }
 
-  search(word: string): Pastrie[] {
-    const re = new RegExp(word.trim(), 'i');
+  search(word: string): Observable<Pastrie[]> {
 
-    return this.pastries.filter(p => p.name.match(re));
+    return this.http.get<Pastrie[]>(this.searchPastriesUrl + `/${word}`, httpOptions);
   }
 
   paginate(start: number, end: number): Observable<Pastrie[]> {

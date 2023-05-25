@@ -23,10 +23,9 @@ export class SearchComponent {
   // }
 
   onChangeEmit(w: string) {
-    const pastries: Pastrie[] = this.ps.search(w);
-    console.log(pastries);
-
-    this.searchPastries.emit(pastries)
+    this.ps.search(w).subscribe(pastries => {
+      this.searchPastries.emit(pastries)
+    })
   }
 
   onReload() {
