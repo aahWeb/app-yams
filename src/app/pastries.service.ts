@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, map } from 'rxjs';
-
-import { List, Pastrie } from './pastrie';
-import { INGREDIENTS_LISTS, PASTRIES } from './mock-pastries';
+import { Pastrie } from './pastrie';
+import {environment} from '../environments/environment.development'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,11 +14,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PastriesService {
-  private pastriesUrl = 'http://localhost:3001/api/pastries';
-  private ingredientsListsUrl = 'http://localhost:3001/api/ingredientsLists';
-  private pastriesUrlOrderQuantity = 'http://localhost:3001/api/pastries/order-quantity';
-  private searchPastriesUrl = 'http://localhost:3001/api/pastries-search';
-  private pastriesUrlCount = 'http://localhost:3001/api/pastries-count';
+  private pastriesUrl = `${environment.urlApi}/pastries`;
+  private ingredientsListsUrl = `${environment.urlApi}/ingredientsLists`;
+  private pastriesUrlOrderQuantity = `${environment.urlApi}/pastries/order-quantity`;
+  private searchPastriesUrl = `${environment.urlApi}/pastries-search`;
+  private pastriesUrlCount = `${environment.urlApi}/pastries-count`;
   private numberPastries: number = 0;
   private currentPage: Subject<number> = new Subject<number>();
 

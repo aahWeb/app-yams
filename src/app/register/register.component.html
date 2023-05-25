@@ -1,6 +1,34 @@
-<form [formGroup]="userForm"  (ngSubmit)="onSubmit()">
-    <label for="first-name">First Name: </label>
-    <input id="first-name" type="text" formControlName="firstName">
-    <label for="last-name">Last Name: </label>
-    <input id="last-name" type="text" formControlName="lastName">
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input formControlName="name" type="text" class="form-control" id="name" placeholder="Name">
+        <div *ngIf="name && name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+            <div *ngIf="name.errors?.['required']">
+                Name is required.
+            </div>
+            <div *ngIf="name.errors?.['minlength']">
+                Name must be at least 5 characters long.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input formControlName="email" type="email" class="form-control" id="mail" aria-describedby="emailHelp"
+                placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div *ngIf="email && email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                <div *ngIf="email.errors?.['required']">
+                    Email is required.
+                </div>
+                <div *ngIf="email.errors?.['email']">
+                    bad syntax email
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <textarea formControlName="address" class="form-control" id="address" placeholder="address">
+        </textarea>
+        </div>
+        <button [disabled]="!userForm.valid" type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
